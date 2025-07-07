@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Cataleya</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+        }
+
+        .heart-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ff6b6b;
+            opacity: 0.6;
+            transform: rotate(45deg);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .heart:before, .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-color: #ff6b6b;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: rotate(45deg) translateY(0) scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: rotate(45deg) translateY(-200px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .message-container {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            max-width: 80%;
+            transition: transform 0.3s ease;
+        }
+
+        .message {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-family: 'Dancing Script', cursive;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            animation: pulse 2s infinite;
+        }
+
+        .subtext {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 1rem;
+            font-weight: 300;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .hearts-text {
+            color: #ff6b6b;
+        }
+
+        .background-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b91f82a6-041f-4394-83ce-4ca2b93bdbf7.png" alt="Suave fondo abstracto con tonos pastel y degradados sutiles en colores claros" class="background-image" />
+    
+    <div class="heart-container" id="heartContainer"></div>
+    
+    <div class="message-container">
+        <h1 class="message">Te amo <span class="hearts-text">Cataleya</span></h1>
+        <p class="subtext">Mi <span class="hearts-text">blanquita</span> hermosa</p>
+    </div>
+
+    <script>
+        function createHearts() {
+            const container = document.getElementById('heartContainer');
+            const heartCount = 15;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                
+                const startPositionX = Math.random() * 100;
+                const startPositionY = 100 + Math.random() * 20;
+                const duration = 4 + Math.random() * 4;
+                const delay = Math.random() * 5;
+                const size = 10 + Math.random() * 10;
+                
+                heart.style.left = `${startPositionX}%`;
+                heart.style.top = `${startPositionY}%`;
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.animationDelay = `${delay}s`;
+                
+                const hue = 340 + Math.random() * 30;
+                heart.style.backgroundColor = `hsl(${hue}, 100%, 70%)`;
+                
+                heart.style.setProperty('--bg-color', heart.style.backgroundColor);
+                
+                container.appendChild(heart);
+            }
+        }
+        
+        createHearts();
+        
+        // Animación al hacer clic
+        document.querySelector('.message-container').addEventListener('click', function() {
+            this.style.transform = 'rotateY(10deg) rotateX(10deg)';
+            setTimeout(() => {
+                this.style.transform = 'rotateY(0) rotateX(0)';
+            }, 300);
+            
+            // Añadir corazón extra al hacer clic
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = `${Math.random() * 80 + 10}%`;
+            heart.style.top = '100%';
+            heart.style.width = '25px';
+            heart.style.height = '25px';
+            
+            const hue = 340 + Math.random() * 30;
+            heart.style.backgroundColor = `hsl(${hue}, 100%, 70%)`;
+            
+            document.getElementById('heartContainer').appendChild(heart);
+        });
+    </script>
+</body>
+</html>
